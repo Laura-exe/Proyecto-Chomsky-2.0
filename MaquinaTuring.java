@@ -9,24 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Niveles 0 y 1 de Chomsky con el mismo motor.
- *
- * Una Máquina de Turing determinista es M = (Q, Σ, Γ, δ, q0, B, F) con
- *   δ : Q × Γ → Q × Γ × {L, R, S}
- * (en cada paso lee el símbolo bajo el cabezal, lo reemplaza, mueve el cabezal a la
- * izquierda, a la derecha o lo deja quieto, y cambia de estado).
- *
- * - Modo NO acotado (nivel 0): la cinta es infinita en ambos sentidos. Se simula
- *   agregando celdas en blanco '_' cuando el cabezal se sale de lo ya usado.
- * - Modo ACOTADO (nivel 1, Autómata Linealmente Acotado o LBA): la cinta mide exactamente
- *   |w| + 2 celdas: la entrada rodeada por los delimitadores '<' y '>'. El cabezal nunca
- *   puede salirse ni sobrescribir los delimitadores. La memoria es proporcional a la entrada.
- *
- * Acepta al llegar a un estado de F. Rechaza si no hay transición definida (la máquina
- * se "atasca"), si intenta violar la frontera del LBA o si supera el límite de pasos
- * (una MT puede no detenerse nunca, por eso hace falta ese límite en el simulador).
- */
+//Niveles 0 y 1 de Chomsky 
 public class MaquinaTuring {
 
     public static final char BLANCO = '_';
@@ -58,7 +41,7 @@ public class MaquinaTuring {
         for (char c : sigma.toCharArray()) gamma.add(c);
     }
 
-    /** Agrega δ(q, leer) = (siguiente, escribe, mov) con mov ∈ {L, R, S}. */
+    // Agrega (q, leer) = (siguiente, escribe, mov)
     public MaquinaTuring regla(String q, char leer, char escribe, char mov, String siguiente) {
         String k = clave(q, leer);
         delta.put(k, new Regla(escribe, mov, siguiente));
@@ -79,7 +62,7 @@ public class MaquinaTuring {
     public Set<Character> gamma() { return gamma; }
     public List<String> reglas() { return new ArrayList<>(textos.values()); }
 
-    /** Contenido "útil" de una cinta: sin blancos ni delimitadores. Sirve para leer el resultado de una función. */
+    // resultado de una función 
     public static String contenido(List<Character> cinta) {
         StringBuilder sb = new StringBuilder();
         for (char c : cinta) {
