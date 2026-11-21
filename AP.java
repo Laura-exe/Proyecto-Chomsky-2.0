@@ -8,23 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Nivel 2 de Chomsky: Autómata de Pila determinista (APD).
- *
- * Formalmente M = (Q, Σ, Γ, δ, q0, Z0, F):
- *   Γ  = alfabeto de la pila,  Z0 = símbolo inicial (fondo) de la pila
- *   δ  : Q × (Σ ∪ {ε}) × Γ → Q × Γ*
- *
- * Cada regla dice: "en el estado q, leyendo el símbolo a (o nada, ε) con X en el tope,
- * pasa al estado q' y reemplaza X por la cadena γ". Si γ está vacía, X se desapila.
- * En γ el PRIMER símbolo queda en el tope de la pila.
- *
- * Acepta por estado final: la entrada debe consumirse y el estado debe estar en F.
- * La pila es memoria LIFO ilimitada, y por eso puede contar (aⁿbⁿ) o emparejar (wcwᴿ).
- */
+// Nivel 2 de Chomsky: Autómata de Pila determinista (APD)
 public class AP {
 
-    /** Símbolo que representa "no leer entrada" (transición ε). */
+    // Vacio 
     public static final char EPS = 'ε';
 
     public record Regla(String siguiente, String apila) { }
@@ -41,7 +28,7 @@ public class AP {
         this.fondo = fondo;
     }
 
-    /** Agrega δ(q, entrada, tope) = (siguiente, apila). Usar EPS como entrada para una transición ε. */
+    //(q, entrada, tope) = (siguiente, apila) 
     public AP regla(String q, char entrada, char tope, String siguiente, String apila) {
         String k = clave(q, entrada, tope);
         delta.put(k, new Regla(siguiente, apila));
@@ -58,7 +45,7 @@ public class AP {
     public Set<String> finales() { return finales; }
     public char fondo() { return fondo; }
 
-    /** Reglas en texto, en el orden en que se definieron (para mostrarlas en pantalla). */
+    // Reglas  
     public List<String> reglas() { return new ArrayList<>(textos.values()); }
 
     public List<Paso> simular(String w) {
@@ -73,7 +60,7 @@ public class AP {
         for (int guardia = 0; guardia < 10_000 && !pila.isEmpty(); guardia++) {
             char tope = pila.get(pila.size() - 1);
 
-            // Se prefiere la transición que consume símbolo; si no existe, se intenta la ε.
+            // Se prefiere la transición que consume si no existe = vacio.
             String clave = null;
             boolean consume = false;
             if (i < w.length() && delta.containsKey(clave(q, w.charAt(i), tope))) {
