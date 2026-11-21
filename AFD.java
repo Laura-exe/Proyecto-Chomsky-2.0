@@ -8,18 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Nivel 3 de Chomsky: Autómata Finito Determinista (AFD).
- *
- * Formalmente es una 5-tupla M = (Q, Σ, δ, q0, F):
- *   Q  = conjunto finito de estados
- *   Σ  = alfabeto de entrada
- *   δ  = función de transición  Q × Σ → Q
- *   q0 = estado inicial
- *   F  = estados de aceptación
- *
- * No tiene memoria auxiliar: lo único que "recuerda" es el estado actual.
- */
 public class AFD {
 
     /** Arista del grafo de estados (varias transiciones con mismo origen y destino se agrupan). */
@@ -41,7 +29,7 @@ public class AFD {
         }
     }
 
-    /** Define δ(desde, simbolo) = hacia. Devuelve this para poder encadenar llamadas. */
+    /** Define (qo, simbolo) */
     public AFD transicion(String desde, char simbolo, String hacia) {
         delta.get(desde).put(simbolo, hacia);
         return this;
@@ -52,7 +40,7 @@ public class AFD {
     public String inicial() { return inicial; }
     public Set<String> finales() { return finales; }
 
-    /** Aristas agrupadas para dibujar el grafo: q0 --0,1--> q1 aparece como una sola flecha. */
+    /** Aristas  */
     public List<Arista> aristas() {
         Map<String, List<Character>> grupos = new LinkedHashMap<>();
         for (String e : estados) {
@@ -73,10 +61,7 @@ public class AFD {
         return resultado;
     }
 
-    /**
-     * Procesa la cadena símbolo a símbolo y devuelve la traza completa.
-     * Un AFD siempre termina: hace exactamente |w| transiciones.
-     */
+    /** devuelve la traza completa. */
     public List<Paso> simular(String w) {
         List<Paso> pasos = new ArrayList<>();
         String q = inicial;
