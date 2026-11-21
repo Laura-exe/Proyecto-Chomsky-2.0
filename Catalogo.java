@@ -3,19 +3,13 @@ package chomsky.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Catálogo de lenguajes de ejemplo para cada nivel de la jerarquía, con sus
- * máquinas ya construidas y sus cadenas de prueba (las mismas que se listan en el README).
- */
 public final class Catalogo {
 
     private Catalogo() { }
 
     public static final String NOMBRE_MULTIPLOS = "Múltiplos de N en binario (parametrizable)";
 
-    // =====================================================================
-    // NIVEL 3 · Lenguajes regulares  →  AFD
-    // =====================================================================
+    // NIVEL 3 AFD
 
     public static List<Lenguaje<AFD>> afds() {
         return List.of(paresDeUnos(), terminaEnAb(), multiplos(3));
@@ -56,11 +50,11 @@ public final class Catalogo {
                 new Ejemplo("", false, "ε no termina en nada")));
     }
 
-    /**
-     * AFD parametrizable: acepta los números binarios que son múltiplos de n.
-     * El estado rK significa "lo leído hasta ahora vale K módulo n". Al leer el bit b,
-     * el nuevo residuo es (2K + b) mod n, porque agregar un bit duplica el valor y le suma b.
-     */
+    
+     // acepta los números binarios que son múltiplos de n.
+    // El estado rK significa "lo leído hasta ahora vale K módulo n". Al leer el bit b,
+     // el nuevo residuo es (2K + b) mod n, porque agregar un bit duplica el valor y le suma b.
+     
     public static Lenguaje<AFD> multiplos(int n) {
         List<String> estados = new ArrayList<>();
         for (int r = 0; r < n; r++) estados.add("r" + r);
@@ -84,9 +78,9 @@ public final class Catalogo {
                 m, ejemplos);
     }
 
-    // =====================================================================
-    // NIVEL 2 · Lenguajes libres de contexto  →  Autómata de pila
-    // =====================================================================
+   
+    // NIVEL 2 Autómata de pila
+    
 
     public static List<Lenguaje<AP>> aps() {
         return List.of(anbn(), parentesis(), wcwr());
@@ -164,18 +158,14 @@ public final class Catalogo {
                 new Ejemplo("acb", false, "a ≠ b")));
     }
 
-    // =====================================================================
-    // NIVEL 1 · Lenguajes sensibles al contexto  →  Autómata linealmente acotado
-    // =====================================================================
+
+    // NIVEL 1 Autómata acotado
+  
 
     public static List<Lenguaje<MaquinaTuring>> alas() {
         return List.of(anbncn());
     }
 
-    /**
-     * a^n b^n c^n no es libre de contexto (una sola pila no puede comparar tres bloques),
-     * pero un LBA lo reconoce marcando en cada ronda una a (X), una b (Y) y una c (Z).
-     */
     private static Lenguaje<MaquinaTuring> anbncn() {
         MaquinaTuring m = new MaquinaTuring(true, "q0", List.of("qf"), "abc")
                 .regla("q0", '<', '<', 'R', "q1")
@@ -213,16 +203,14 @@ public final class Catalogo {
                 new Ejemplo("abcabc", false, "no están en bloques"),
                 new Ejemplo("acb", false, "orden incorrecto")));
     }
+    // NIVEL 0 Máquina de Turing
 
-    // =====================================================================
-    // NIVEL 0 · Lenguajes recursivamente enumerables  →  Máquina de Turing
-    // =====================================================================
 
     public static List<Lenguaje<MaquinaTuring>> turings() {
         return List.of(palindromos(), sumaUnaria(), incrementoBinario());
     }
 
-    /** Acepta los palíndromos binarios borrando el primer y el último símbolo en cada ronda. */
+    // borrando el primer y el último símbolo en cada ronda 
     private static Lenguaje<MaquinaTuring> palindromos() {
         MaquinaTuring m = new MaquinaTuring(false, "q0", List.of("qf"), "01")
                 // q0: lee el primer símbolo, lo borra y lo "recuerda" yendo a q1 (era 0) o q4 (era 1)
@@ -260,7 +248,7 @@ public final class Catalogo {
                 new Ejemplo("1100", false, "no es simétrica")));
     }
 
-    /** Función aritmética: 1^a + 1^b  →  1^(a+b)  (números en notación unaria). */
+    // Suma Unaria
     private static Lenguaje<MaquinaTuring> sumaUnaria() {
         MaquinaTuring m = new MaquinaTuring(false, "q0", List.of("qf"), "1+")
                 // q0: recorre el primer sumando; al llegar al '+' lo reemplaza por un 1 (une los dos bloques)
@@ -283,7 +271,7 @@ public final class Catalogo {
                 new Ejemplo("1111+1111", true, "4 + 4 = 8 → 11111111")));
     }
 
-    /** Función aritmética: incremento binario n → n + 1 (demuestra el crecimiento de la cinta hacia la izquierda). */
+    // n + 1 (demuestra el crecimiento de la cinta hacia la izquierda)
     private static Lenguaje<MaquinaTuring> incrementoBinario() {
         MaquinaTuring m = new MaquinaTuring(false, "q0", List.of("qf"), "01")
                 // q0: va hasta el bit menos significativo (el último)
