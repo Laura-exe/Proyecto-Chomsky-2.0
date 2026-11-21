@@ -48,14 +48,6 @@ Para escribir la cadena vacía deja el campo en blanco (o escribe `ε`).
 | Suma unaria `1ᵃ+1ᵇ` | `11+111` → `11111` (2+3=5) · `1+1` → `11` · `111+` → `111` |
 | Incremento binario n → n+1 | `1011` → `1100` · `111` → `1000` (la cinta crece a la izquierda) · `0` → `1` |
 
-## Pruebas automáticas
-
-```bash
-./ejecutar-pruebas.sh        # Windows: ejecutar-pruebas.bat
-```
-
-Comprueba que **todas** las cadenas de prueba dan el veredicto esperado y verifica además contra la aritmética real: múltiplos de N para los números 0–200, aⁿbⁿ hasta n=30, suma unaria para 0–6, incremento de 0–300 y palíndromos de los números 0–511. Resultado esperado: `2442 comprobaciones, 0 fallos. TODO CORRECTO`.
-
 ## Estructura del proyecto
 
 ```
@@ -78,37 +70,3 @@ pruebas/                       PruebasModelo (lógica), PruebasGUI y Capturas (i
 docs/                          Documento de implementación y capturas
 dist/JerarquiaChomsky.jar      Ejecutable
 ```
-
-## Capturas
-
-| Menú principal | Nivel 3 · AFD |
-|---|---|
-| ![menú](docs/capturas/00_menu.png) | ![afd](docs/capturas/01_nivel3_afd_paso.png) |
-
-| Nivel 2 · Pila | Nivel 1 · Cinta acotada |
-|---|---|
-| ![ap](docs/capturas/02_nivel2_ap_paso.png) | ![lba](docs/capturas/03_nivel1_lba_paso.png) |
-
-| Nivel 0 · Máquina de Turing |
-|---|
-| ![mt](docs/capturas/04_nivel0_mt_incremento.png) |
-
-## Cómo publicar el proyecto en GitHub
-
-1. Crea una cuenta en <https://github.com> y pulsa **New repository**. Ponle nombre, márcalo **Public** y créalo (sin README, porque ya existe uno).
-2. En la carpeta del proyecto:
-
-```bash
-git init
-git add .
-git commit -m "Proyecto final: simulador de la Jerarquía de Chomsky"
-git branch -M main
-git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-git push -u origin main
-```
-
-3. Reemplaza `TU_USUARIO/TU_REPOSITORIO` en este README por tu enlace real y entrega la URL del repositorio.
-
-## Autor
-
-_Nombre del estudiante · Materia · Universidad · 2026_
